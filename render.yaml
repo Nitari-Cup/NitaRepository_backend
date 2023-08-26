@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: lunch_bot_production
+    runtime: docker
+    env: ruby
+    region: singapore
+    plan: free
