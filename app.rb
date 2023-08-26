@@ -1,5 +1,6 @@
 require 'sinatra'
 require 'sinatra/base'
+require 'sinatra/reloader'
 require 'json'
 require 'csv'
 require 'uri'
@@ -31,12 +32,22 @@ get '/fetchReview' do
 end
 
 
-get '/fetchPulldown' do
-	body = {
-		test: 'hello'
-	}
+get '/fetchQuestion' do
+	questionsTable = {}
 
-	body.to_json
+	body = File.open('./questions.csv').read
+	csv = CSV.new(
+		body,
+		headers: true,
+		force_quotes: true
+	)
+	
+	rows = csv.to_a.map { |row| row.to_hash }
+	rows.each.with_index(1) do |row, i|
+		questionsTable[i] = row
+	end
+
+	questionsTable.to_json
 end
 
 
