@@ -1,4 +1,5 @@
 require 'sinatra'
+require 'sinatra/reloader'
 require 'json'
 require 'csv'
 require 'uri'
@@ -6,7 +7,7 @@ require 'net/http'
 require 'rubygems'
 require 'bundler'
 
-Bundler.require
+#$Bundler.require
 
 set :bind, "0.0.0.0"
 port = ENV["PORT"] || "8080"
@@ -30,9 +31,29 @@ get '/' do
 	article.to_json
 end
 
+
 post '/postReview' do
-	body = JSON.parse(request.body.read)
-	body.to_json
+	request_body = JSON.parse(request.body.read)
+
+	begin
+		headers = CSV.open('./review.csv', col_sep: "\t").readline[0].split(',')
+		new_row = []	
+
+		headers.each do |header| 
+			new_row.push(request_body[header])
+		end
+		puts "\n\n\n"
+		puts new_row
+
+		CSV.open('./review.csv', 'a' do |csv|
+			csv << new_row
+		end
+	rescue => e
+		puts e
+		{"is_success": false}.to_json
+	else
+		{"is_success": true}.to_json
+	end
 end
 
 
@@ -48,9 +69,9 @@ end
 get '/fetchQuestion' do
 	questionsTable = {}
 
-	body = File.open('./questions.csv').read
+	file = File.open('./questions.csv').read
 	csv = CSV.new(
-		body,
+		file,
 		headers: true,
 		force_quotes: true
 	)
