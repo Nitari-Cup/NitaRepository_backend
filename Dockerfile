@@ -6,7 +6,7 @@ FROM ruby:3.2-buster
 WORKDIR /usr/src/app
 COPY Gemfile Gemfile.lock ./
 ENV BUNDLE_FROZEN=true
-RUN gem update --system 3.2.3 && gem install bundler && bundle config set --local without 'test'
+RUN gem update --system 3.2.3 && gem install bundler
 
 # Copy local code to the container image.
 COPY . ./
