@@ -15,3 +15,29 @@ get '/' do
 	
 	article.to_json
 end
+
+post '/postReview' do
+	body = JSON.parse(request.body.read)
+	body.to_json
+end
+
+
+get '/fetchReview' do
+	body = {
+		test: 'hello'
+	}
+
+	body.to_json
+end
+
+
+get '/fetchPulldown' do
+	body = {
+		test: 'hello'
+	}
+
+	body.to_json
+end
+
+
+
