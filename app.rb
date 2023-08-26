@@ -1,11 +1,12 @@
 require 'sinatra'
-require 'sinatra/base'
-require 'sinatra/reloader'
 require 'json'
 require 'csv'
 require 'uri'
 require 'net/http'
+require 'rubygems'
+require 'bundler'
 
+Bundler.require
 
 get '/' do
 	article = {
