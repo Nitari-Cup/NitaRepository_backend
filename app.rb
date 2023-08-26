@@ -8,6 +8,18 @@ require 'bundler'
 
 Bundler.require
 
+set :bind, "0.0.0.0"
+port = ENV["PORT"] || "8080"
+set :port, port
+
+before do
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Methods'] = 'POST'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
+
+    halt(200) if request.request_method == 'OPTIONS'
+end
+
 get '/' do
 	article = {
 		id: 1,
