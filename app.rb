@@ -45,7 +45,7 @@ post '/postReview' do
 		puts "\n\n\n"
 		puts new_row
 
-		CSV.open('./review.csv', 'a' do |csv|
+		CSV.open('./review.csv', 'a') do |csv|
 			csv << new_row
 		end
 	rescue => e
