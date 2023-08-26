@@ -31,7 +31,7 @@ get '/fetchReview' do
 end
 
 
-get '/fetchPulldown' do
+get '/fetchQuestion' do
 	body = {
 		test: 'hello'
 	}
