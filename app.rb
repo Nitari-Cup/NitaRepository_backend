@@ -6,7 +6,7 @@ require 'net/http'
 require 'rubygems'
 require 'bundler'
 
-#$Bundler.require
+Bundler.require
 
 set :bind, "0.0.0.0"
 port = ENV["PORT"] || "8080"
@@ -57,11 +57,20 @@ end
 
 
 get '/fetchReview' do
-	body = {
-		test: 'hello'
-	}
+	file = File.open('./review.csv').read
+	csv = CSV.new(
+		file,
+		headers: true,
+		force_quotes: true
+	)
 
-	body.to_json
+	rows = csv.to_a.map { |row| row.to_hash }
+
+	reviewTable = {}
+	rows.each.with_index(1) do |row, i|
+		reviewTable[i] = row
+	end
+	reviewTable.to_json	
 end
 
 
